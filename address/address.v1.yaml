@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  title: address.v1
+  version: '1.0'
+  contact:
+    name: Conomy
+    url: conomyhq.com
+    email: hola@conomyhq.com
+  termsOfService: conomyhq.com
+  description: 'Create, update and delete address '
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/address/{addressId}':
+    parameters:
+      - schema:
+          type: string
+        name: addressId
+        in: path
+        required: true
+    get:
+      summary: Get Address by address ID
+      tags:
+        - address
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-address-addressId
+      description: Retrieve the information of the address with the matching user ID.
+    patch:
+      summary: Update Address Information
+      operationId: patch-users-userId
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Update the infromation of an existing address.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch address properties to update.
+      tags:
+        - address
+  /address:
+    post:
+      summary: Create New Address
+      operationId: post-address
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+              examples: {}
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  $ref: ./users.v1.yaml#/components/schemas/Address
+              required:
+                - address
+            examples: {}
+        description: Possible to create an address with any address model field
+      description: Create a new address.
+      tags:
+        - address
+    parameters: []
+components:
+  schemas:
+    Address:
+      title: Address
+      type: object
+      description: Address Model
+      x-examples: {}
+      properties:
+        country:
+          type: string
+          description: Unique identifier for the given user.
+        region:
+          type: string
+        commune:
+          type: string
+        city:
+          type: string
+          format: email
+        province:
+          type: string
+          format: date
+          example: '1997-10-31'
+        firstLine:
+          type: string
+          description: Set to true if the user's email has been verified.
+        secondline:
+          type: string
+          format: date
+          description: The date that the user was created.
+        zipCode:
+          type: string
+        addressId:
+          type: string
+tags:
+  - name: address

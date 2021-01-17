@@ -129,6 +129,10 @@ paths:
       responses:
         '202':
           description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cards'
       description: Set the user's current card matching with user ID and card ID
       requestBody:
         content:
@@ -250,7 +254,7 @@ paths:
               properties:
                 token:
                   type: string
-                userId:
+                userid:
                   type: string
                 conomyCard:
                   $ref: '#/components/schemas/ConomyCards'
@@ -258,7 +262,7 @@ paths:
                   $ref: '#/components/schemas/Cards'
               required:
                 - token
-                - userId
+                - userid
         description: |-
           for create conomy cards send conomyCard param
           for create trnasactional card send card param
