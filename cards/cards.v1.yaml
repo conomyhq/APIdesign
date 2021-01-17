@@ -44,42 +44,6 @@ paths:
           description: Internal Server Error
       operationId: get-cards-userId
       description: Retrieve all cards of the user with the matching user ID.
-    post:
-      summary: Add new card by User ID
-      operationId: post-cards-userId
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  cardid:
-                    type: string
-                  token:
-                    type: string
-          description: Created
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-      description: Create a new Card associated with user ID.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                token:
-                  type: string
-                description:
-                  $ref: '#/components/schemas/CardsDescription'
-              required:
-                - token
-        description: ''
-      tags:
-        - cards/user
     delete:
       summary: Delete Cards by User ID
       operationId: delete-cards-userId
@@ -205,30 +169,6 @@ paths:
           description: Internal Server Error
       operationId: get-cards-conomy-userId
       description: Get all Conomy Cards associated with user ID.
-    post:
-      summary: Add New Conomy Card by User ID
-      operationId: post-cards-conomy-userId
-      responses:
-        '201':
-          description: Created
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-      description: Create a new Conomy Card associated with user ID.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                description:
-                  $ref: '#/components/schemas/CardsDescription'
-        description: ''
-      tags:
-        - cards/conomy
     delete:
       summary: ''
       operationId: delete-cards-conomy-userId
@@ -281,6 +221,47 @@ paths:
       description: Delete Conomy Card with the matching card ID.
       tags:
         - cards
+  /cards:
+    post:
+      summary: Create a new Card
+      operationId: post-cards
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardid:
+                    type: number
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Create a new Card associated with user ID.
+      tags:
+        - cards
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                userId:
+                  type: string
+                conomyCard:
+                  $ref: '#/components/schemas/ConomyCards'
+                card:
+                  $ref: '#/components/schemas/Cards'
+              required:
+                - token
+                - userId
+        description: |-
+          for create conomy cards send conomyCard param
+          for create trnasactional card send card param
 components:
   schemas:
     Cards:
