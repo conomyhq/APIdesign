@@ -348,6 +348,8 @@ components:
           type: string
         brand:
           type: string
+        issuer:
+          type: string
       required:
         - bin
         - pan
