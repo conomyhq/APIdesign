@@ -7,19 +7,19 @@ info:
     url: conomyhq.com
     email: hola@conomyhq.com
   termsOfService: conomyhq.com
-  description: 'Create, update and delete address '
+  description: 'Create, update and delete address'
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/address/{addressId}':
+  '/address/{userid}':
     parameters:
       - schema:
           type: string
-        name: addressId
+        name: userid
         in: path
         required: true
     get:
-      summary: Get Address by address ID
+      summary: Get Address by User ID
       tags:
         - address
       responses:
@@ -28,71 +28,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Address'
-              examples:
-                Get User Alice Smith:
-                  value:
-                    id: 142
-                    firstName: Alice
-                    lastName: Smith
-                    email: alice.smith@gmail.com
-                    dateOfBirth: '1997-10-31'
-                    emailVerified: true
-                    signUpDate: '2019-08-24'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+              examples: {}
         '400':
           description: Bad Request
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
-      operationId: get-address-addressId
-      description: Retrieve the information of the address with the matching user ID.
-    patch:
-      summary: Update Address Information
-      operationId: patch-users-userId
-      responses:
-        '202':
-          description: Accepted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Address'
-              examples:
-                Updated User Rebecca Baker:
-                  value:
-                    id: 13
-                    firstName: Rebecca
-                    lastName: Baker
-                    email: rebecca@gmail.com
-                    dateOfBirth: '1985-10-02'
-                    emailVerified: false
-                    createDate: '2019-08-24'
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-      description: Update the infromation of an existing address.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Address'
-            examples:
-              Update First Name:
-                value:
-                  firstName: Rebecca
-              Update Email:
-                value:
-                  email: rebecca@gmail.com
-              Update Last Name & Date of Birth:
-                value:
-                  lastName: Baker
-                  dateOfBirth: '1985-10-02'
-        description: Patch address properties to update.
-      tags:
-        - address
+      operationId: get-address-userid
+      description: Retrieve all address with the matching user ID.
   /address:
     post:
       summary: Create New Address
@@ -104,7 +51,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Address'
-              examples: {}
         '400':
           description: Bad Request
         '500':
@@ -125,6 +71,67 @@ paths:
       tags:
         - address
     parameters: []
+  '/address/{addressid}':
+    parameters:
+      - schema:
+          type: string
+        name: addressid
+        in: path
+        required: true
+    get:
+      summary: Get Address by Address ID
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-address-addressid
+      description: Get card with the matching Address ID.
+    patch:
+      summary: ''
+      operationId: patch-address-addressid
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Update the infromation of an existing address.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+        description: Address Model
+    delete:
+      summary: ''
+      operationId: delete-address-addressid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Delete address with matching by Address ID
 components:
   schemas:
     Address:
@@ -157,6 +164,10 @@ components:
         zipCode:
           type: string
         addressId:
+          type: string
+        userId:
+          type: string
+        type:
           type: string
 tags:
   - name: address
